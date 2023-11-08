@@ -1,4 +1,4 @@
-module IF_Stage(
+module IF_stage(
   input clk, rst,freeze,Branch_taken,input[31:0] BranchAddr,output[31:0] PC,output [31:0] Instruction );
   wire[31:0] nextPC, MUXout;
   reg[31:0]PCreg=0;
@@ -64,7 +64,7 @@ module WB_Stage_Reg(
 );
 endmodule
 
-module arm_instruction_memory (
+module InstMem (
     input clk,
     input [31:0] address, // 6-bit instruction address
     output reg [31:0] instruction // 32-bit instruction word

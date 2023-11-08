@@ -19,22 +19,28 @@ module IF_Stage_Reg(
       end
     end
   end
+endmodule
 
 module ID_Stage_Reg(
   input clk,rst,freeze,flush,
   input[31:0] PC_in, Instruction_in,
   output reg[31:0] PC,Instruction
 );
+endmodule
 module EXE_Stage_Reg(
   input clk,rst,freeze,flush,
   input[31:0] PC_in, Instruction_in,
   output reg[31:0] PC,Instruction
 );
+endmodule
+
 module MEM_Stage_Reg(
   input clk,rst,freeze,flush,
   input[31:0] PC_in, Instruction_in,
   output reg[31:0] PC,Instruction
 );
+endmodule
+
 module WB_Stage_Reg(
   input clk,rst,freeze,flush,
   input[31:0] PC_in, Instruction_in,
