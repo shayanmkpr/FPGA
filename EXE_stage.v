@@ -1,0 +1,39 @@
+module EXE_stage(
+                input [31:0] PC,
+                input MEM_R_EN,
+                input MEM_W_EN,
+                input [3:0] EXE_CMD,
+                input S, 
+                input I,
+                input [31:0] Val_RN,
+                input [31:0] Val_RM,
+                input [11:0] imm,
+                input [11:0] shift_operand,
+                input signed [23:0] signed_immed_24,
+                input [3:0] status,
+                output wire [31:0] BranchAddr,
+                output [3:0] status_out,
+                output wire [31:0] ALU_out
+                );
+wire [31:0] Val2;
+            Val2gen val2gen_instance (
+                                      .m(MEM_R_EN|MEM_W_EN),
+                                      .I(I),
+                                      .Val_RM(Val_RM),
+                                      .imm(imm),
+                                      .shift_operand(shift_operand),
+                                      .Val2(Val2)
+                                     );
+assign BranchAddr = PC + {signed_immed_24[23], signed_immed_24[23],
+                          signed_immed_24[23], signed_immed_24[23],
+                          signed_immed_24[23], signed_immed_24[23],
+                          signed_immed_24, 2'b00};
+            ALU alu_instance(
+                             .ALU_Comnd(EXE_CMD),
+                             .Val1(Val_RN), 
+                             .Val2(Val2),
+                             .C(status[2]),
+                             .ALU_out(ALU_out),
+                             .SR(status_out)
+                            );
+endmodule

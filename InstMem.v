@@ -1,5 +1,4 @@
-module arm_instruction_memory (
-    input clk,
+module InstMem (
     input [31:0] address, // 6-bit instruction address
     output reg [31:0] instruction // 32-bit instruction word
 );
@@ -22,5 +21,4 @@ always @* begin
         default: instruction = 32'b00000000000000000000000000000000; // Default to a NOP
     endcase
 end
-
 endmodule

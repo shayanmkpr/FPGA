@@ -8,7 +8,6 @@ module ID_stage (
     input wire [31:0] Result_WB,
     input wire writeBackEn,
     input Hazard,
-
     output WB_EN,
     output MEM_R_EN,
     output MEM_W_EN,
@@ -20,18 +19,12 @@ module ID_stage (
     output wire [3:0] src2,
     output has_src2
 );
-//instantiation of Condition Check and its assosiated wires
 wire CondFlag;
 wire Z1, C1, N1, V1;
 assign {Z1, C1, N1, V1} = status;
 ConditionCheck Cond_check_inst (.Cond(Instruction[31:28]),
                       .Z(Z1), .C(C1) , .N(N1), .V(V1),
                       .CondFlag(CondFlag));
-
-//end of Condition Check
-
-
-//controlUnit instance and its assosiate wires
 wire [3:0] Execute_Command;
 wire mem_read, mem_write, WB_enable, B_out, S_out;
 
@@ -50,21 +43,12 @@ assign EXE_CMD =    (Hazard | (~CondFlag)) ? 4'b0 :Execute_Command  ;
 assign B =          (Hazard | (~CondFlag)) ? 1'b0 :B_out            ; 
 assign S =          (Hazard | (~CondFlag)) ? 1'b0 :S_out            ;
 
-//end of controlUnit instance
 
-
-//register file instance and it's wires
 assign src2 = mem_write ? (Instruction[15:12]):(Instruction[3:0]);
-
 RegisterFile RF (.clk(clk), .rst(rst), 
                      .src1(Instruction[19:16]), .src2(src2), .Dest_wb(Dest_wb), 
                      .Result_WB(Result_WB), 
                      .writeBackEn(writeBackEn), 
                      .reg1(Val_RN), .reg2(Val_RM));
-
-
 assign has_src2 = (~Instruction[25]) | mem_write;
-
-
-    
 endmodule
